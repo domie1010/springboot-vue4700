@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.FangwuDao">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.fangwu_name as fangwuName
+        ,a.fangwu_uuid_number as fangwuUuidNumber
+        ,a.fangwu_photo as fangwuPhoto
+        ,a.fangwu_address as fangwuAddress
+        ,a.fangwu_louceng as fangwuLouceng
+        ,a.fangwu_danyuan as fangwuDanyuan
+        ,a.fangwu_fanghao as fangwuFanghao
+        ,a.fangwu_types as fangwuTypes
+        ,a.fangwu_loupan_types as fangwuLoupanTypes
+        ,a.huxing as huxing
+        ,a.fangwu_jiegou as fangwuJiegou
+        ,a.fangwu_jianzhujiegou as fangwuJianzhujiegou
+        ,a.fangwu_zhuangxiu as fangwuZhuangxiu
+        ,a.fangwu_yongtu as fangwuYongtu
+        ,a.fangwu_fangben_types as fangwuFangbenTypes
+        ,a.fangwu_clicknum as fangwuClicknum
+        ,a.fangwu_mianji as fangwuMianji
+        ,a.fangwu_jiage as fangwuJiage
+        ,a.fangwuzhuangtai_types as fangwuzhuangtaiTypes
+        ,a.fangwu_content as fangwuContent
+        ,a.fangwu_xiaoqu_content as fangwuXiaoquContent
+        ,a.fangwu_peitao_content as fangwuPeitaoContent
+        ,a.shangxia_types as shangxiaTypes
+        ,a.fangwu_delete as fangwuDelete
+        ,a.insert_time as insertTime
+        ,a.create_time as createTime
+    </sql>
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.FangwuView" >
+        SELECT
+        <include refid="Base_Column_List" />
+        <!-- 级联表的字段 -->
+
+        FROM fangwu  a
+
+        <where>
+            <if test="params.ids != null">
+                and a.id in
+                <foreach item="item" index="index" collection="params.ids" open="(" separator="," close=")">
+                #{item}
+                </foreach>
+            </if>
+            <if test=" params.fangwuName != '' and params.fangwuName != null and params.fangwuName != 'null' ">
+                and a.fangwu_name like CONCAT('%',#{params.fangwuName},'%')
+            </if>
+            <if test=" params.fangwuUuidNumber != '' and params.fangwuUuidNumber != null and params.fangwuUuidNumber != 'null' ">
+                and a.fangwu_uuid_number like CONCAT('%',#{params.fangwuUuidNumber},'%')
+            </if>
+            <if test=" params.fangwuAddress != '' and params.fangwuAddress != null and params.fangwuAddress != 'null' ">
+                and a.fangwu_address like CONCAT('%',#{params.fangwuAddress},'%')
+            </if>
+            <if test=" params.fangwuLouceng != '' and params.fangwuLouceng != null and params.fangwuLouceng != 'null' ">
+                and a.fangwu_louceng like CONCAT('%',#{params.fangwuLouceng},'%')
+            </if>
+            <if test=" params.fangwuDanyuan != '' and params.fangwuDanyuan != null and params.fangwuDanyuan != 'null' ">
+                and a.fangwu_danyuan like CONCAT('%',#{params.fangwuDanyuan},'%')
+            </if>
+            <if test=" params.fangwuFanghao != '' and params.fangwuFanghao != null and params.fangwuFanghao != 'null' ">
+                and a.fangwu_fanghao like CONCAT('%',#{params.fangwuFanghao},'%')
+            </if>
+            <if test="params.fangwuTypes != null and params.fangwuTypes != ''">
+                and a.fangwu_types = #{params.fangwuTypes}
+            </if>
+            <if test="params.fangwuLoupanTypes != null and params.fangwuLoupanTypes != ''">
+                and a.fangwu_loupan_types = #{params.fangwuLoupanTypes}
+            </if>
+            <if test=" params.huxing != '' and params.huxing != null and params.huxing != 'null' ">
+                and a.huxing like CONCAT('%',#{params.huxing},'%')
+            </if>
+            <if test=" params.fangwuJiegou != '' and params.fangwuJiegou != null and params.fangwuJiegou != 'null' ">
+                and a.fangwu_jiegou like CONCAT('%',#{params.fangwuJiegou},'%')
+            </if>
+            <if test=" params.fangwuJianzhujiegou != '' and params.fangwuJianzhujiegou != null and params.fangwuJianzhujiegou != 'null' ">
+                and a.fangwu_jianzhujiegou like CONCAT('%',#{params.fangwuJianzhujiegou},'%')
+            </if>
+            <if test=" params.fangwuZhuangxiu != '' and params.fangwuZhuangxiu != null and params.fangwuZhuangxiu != 'null' ">
+                and a.fangwu_zhuangxiu like CONCAT('%',#{params.fangwuZhuangxiu},'%')
+            </if>
+            <if test=" params.fangwuYongtu != '' and params.fangwuYongtu != null and params.fangwuYongtu != 'null' ">
+                and a.fangwu_yongtu like CONCAT('%',#{params.fangwuYongtu},'%')
+            </if>
+            <if test="params.fangwuFangbenTypes != null and params.fangwuFangbenTypes != ''">
+                and a.fangwu_fangben_types = #{params.fangwuFangbenTypes}
+            </if>
+            <if test="params.fangwuClicknumStart != null and params.fangwuClicknumStart != ''">
+                <![CDATA[  and a.fangwu_clicknum >= #{params.fangwuClicknumStart}   ]]>
+            </if>
+            <if test="params.fangwuClicknumEnd != null and params.fangwuClicknumEnd != ''">
+                <![CDATA[  and a.fangwu_clicknum <= #{params.fangwuClicknumEnd}   ]]>
+            </if>
+             <if test="params.fangwuClicknum != null and params.fangwuClicknum != ''">
+                and a.fangwu_clicknum = #{params.fangwuClicknum}
+             </if>
+            <if test="params.fangwuMianjiStart != null ">
+                <![CDATA[  and a.fangwu_mianji >= #{params.fangwuMianjiStart}   ]]>
+            </if>
+            <if test="params.fangwuMianjiEnd != null ">
+                <![CDATA[  and a.fangwu_mianji <= #{params.fangwuMianjiEnd}   ]]>
+            </if>
+            <if test="params.fangwuJiageStart != null ">
+                <![CDATA[  and a.fangwu_jiage >= #{params.fangwuJiageStart}   ]]>
+            </if>
+            <if test="params.fangwuJiageEnd != null ">
+                <![CDATA[  and a.fangwu_jiage <= #{params.fangwuJiageEnd}   ]]>
+            </if>
+            <if test="params.fangwuzhuangtaiTypes != null and params.fangwuzhuangtaiTypes != ''">
+                and a.fangwuzhuangtai_types = #{params.fangwuzhuangtaiTypes}
+            </if>
+            <if test=" params.fangwuContent != '' and params.fangwuContent != null and params.fangwuContent != 'null' ">
+                and a.fangwu_content like CONCAT('%',#{params.fangwuContent},'%')
+            </if>
+            <if test=" params.fangwuXiaoquContent != '' and params.fangwuXiaoquContent != null and params.fangwuXiaoquContent != 'null' ">
+                and a.fangwu_xiaoqu_content like CONCAT('%',#{params.fangwuXiaoquContent},'%')
+            </if>
+            <if test=" params.fangwuPeitaoContent != '' and params.fangwuPeitaoContent != null and params.fangwuPeitaoContent != 'null' ">
+                and a.fangwu_peitao_content like CONCAT('%',#{params.fangwuPeitaoContent},'%')
+            </if>
+            <if test="params.shangxiaTypes != null and params.shangxiaTypes != ''">
+                and a.shangxia_types = #{params.shangxiaTypes}
+            </if>
+            <if test="params.fangwuDeleteStart != null and params.fangwuDeleteStart != ''">
+                <![CDATA[  and a.fangwu_delete >= #{params.fangwuDeleteStart}   ]]>
+            </if>
+            <if test="params.fangwuDeleteEnd != null and params.fangwuDeleteEnd != ''">
+                <![CDATA[  and a.fangwu_delete <= #{params.fangwuDeleteEnd}   ]]>
+            </if>
+             <if test="params.fangwuDelete != null and params.fangwuDelete != ''">
+                and a.fangwu_delete = #{params.fangwuDelete}
+             </if>
+            <if test=" params.insertTimeStart != '' and params.insertTimeStart != null ">
+                <![CDATA[  and UNIX_TIMESTAMP(a.insert_time) >= UNIX_TIMESTAMP(#{params.insertTimeStart}) ]]>
+            </if>
+            <if test=" params.insertTimeEnd != '' and params.insertTimeEnd != null ">
+                <![CDATA[  and UNIX_TIMESTAMP(a.insert_time) <= UNIX_TIMESTAMP(#{params.insertTimeEnd}) ]]>
+            </if>
+
+        </where>
+        order by a.${params.sort} ${params.order}
+    </select>
+
+</mapper>
